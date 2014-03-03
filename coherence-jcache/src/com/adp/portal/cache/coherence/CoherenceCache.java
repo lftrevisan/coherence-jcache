@@ -119,10 +119,10 @@ public class CoherenceCache<K, V> implements Cache<K, V> {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Iterator<javax.cache.Cache.Entry<K, V>> iterator() {
-		return coherenceCache.values().iterator();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

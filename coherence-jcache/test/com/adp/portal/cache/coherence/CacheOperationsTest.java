@@ -176,5 +176,58 @@ public class CacheOperationsTest {
 		assertTrue(cache.remove(KEY, value));
 		assertFalse(cache.containsKey(KEY));
 	}
+	
+	@Test
+	public void removeAllWithFilteringTest() {
+		Cache <String, String> cache = Caching.getCache(CACHE_NAME, String.class, String.class);
+		cache.clear();
+		String value = "any";
+		cache.put(KEY, value);
+		cache.put(KEY2, value);
+		
+		cache.removeAll(Collections.singleton(KEY));
+		
+		assertFalse(cache.containsKey(KEY));
+		assertTrue(cache.containsKey(KEY2));
+	}
 
+	
+	@Test
+	public void removeAllTest() {
+		Cache <String, String> cache = Caching.getCache(CACHE_NAME, String.class, String.class);
+		cache.clear();
+		String value = "any";
+		cache.put(KEY, value);
+		cache.put(KEY2, value);
+		
+		cache.removeAll();
+		
+		assertFalse(cache.containsKey(KEY));
+		assertFalse(cache.containsKey(KEY2));
+	}
+	
+	@Test
+	public void replaceTest() {
+		Cache <String, String> cache = Caching.getCache(CACHE_NAME, String.class, String.class);
+		cache.clear();
+		String oldValue = "any";
+		String newValue = "any2";
+		cache.put(KEY, oldValue);
+		
+		// inexistent key
+		assertFalse(cache.replace(KEY2, oldValue));
+		
+		// existent key
+		assertTrue(cache.replace(KEY, newValue));
+		assertEquals(cache.get(KEY), newValue);
+		
+		// inexistent key
+		assertFalse(cache.replace(KEY2, oldValue, newValue));
+		
+		// existent key
+		assertTrue(cache.replace(KEY, newValue, oldValue));
+		assertEquals(cache.get(KEY), oldValue);
+	}
+	
 }
+
