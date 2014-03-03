@@ -19,9 +19,11 @@ import com.tangosol.util.processor.ConditionalRemove;
 public class CoherenceCache<K, V> implements Cache<K, V> {
 
 	private NamedCache coherenceCache;
+	private CacheManager cacheManager;
 	
-	public CoherenceCache(NamedCache coherenceCache) {
+	CoherenceCache(CacheManager cacheManager, NamedCache coherenceCache) {
 		super();
+		this.cacheManager = cacheManager;
 		this.coherenceCache = coherenceCache;
 	}
 
@@ -47,11 +49,13 @@ public class CoherenceCache<K, V> implements Cache<K, V> {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public V get(K key) {
 		return (V)coherenceCache.get(key);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<K, V> getAll(Set<? extends K> keySet) {
 		return coherenceCache.getAll(keySet);
@@ -83,7 +87,7 @@ public class CoherenceCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public CacheManager getCacheManager() {
-		return new CoherenceCacheManager();
+		return this.cacheManager;
 	}
 
 	@Override
@@ -115,6 +119,7 @@ public class CoherenceCache<K, V> implements Cache<K, V> {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Iterator<javax.cache.Cache.Entry<K, V>> iterator() {
 		return coherenceCache.values().iterator();

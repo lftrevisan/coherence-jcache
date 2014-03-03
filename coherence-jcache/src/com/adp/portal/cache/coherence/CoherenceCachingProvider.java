@@ -9,6 +9,12 @@ import javax.cache.spi.CachingProvider;
 
 public class CoherenceCachingProvider implements CachingProvider {
 
+	private final CacheManager cacheManager;
+	
+	public CoherenceCachingProvider() {
+		this.cacheManager = new CoherenceCacheManager(this);
+	}
+	
 	@Override
 	public void close() {
 		// TODO Auto-generated method stub
@@ -29,7 +35,7 @@ public class CoherenceCachingProvider implements CachingProvider {
 
 	@Override
 	public CacheManager getCacheManager() {
-		return new CoherenceCacheManager();
+		return cacheManager;
 	}
 
 	@Override
